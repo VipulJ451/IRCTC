@@ -7,66 +7,63 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 public class Searchpage {
- WebDriver driver;
+ static WebDriver driver;
  
- private By oneWayRadio= By.xpath("//div[@class='onewayradio']//input[@name='tripType']");
- private By  roundTripRadio = By.xpath("//div[@class='roundtripradio']//input[@name='tripType']");
- private By  Source=By.xpath("//input[@id='origin']");
- private By Destination =By.xpath("//input[@id='destination']");
- private By dateButton =By.xpath("//input[@name='departDate']/following-sibling::img");
- private By date =By.xpath("//div[@id='ui-datepicker-div']/div[1]//a[text()='23']");
- private By number_Adult= By.xpath("//select[@id='noOfAdult']");
- private By number_child=By.xpath("//select[@id='noOfChild']");
- private By number_infant= By.xpath("//select[@id='noOfInfant']");
- private By search_btn =By.xpath("//div[@id='showdometic']/div[@class='srchbtn']");
- private By list_flight=By.className("onewayflightinfo");
+ private By sourcelocation=By.xpath("//input[@id='origin']");
+ private By destinationlocation =By.xpath("//input[@id='destination']");
+ private By datebutton =By.xpath("//input[@name='departDate']/following-sibling::img");
+ private By date =By.xpath("//div[@id='ui-datepicker-div']//a[text()='30']");
+ private By numberofadult= By.xpath("//select[@id='noOfAdult']");
+ private By numberofchild=By.xpath("//select[@id='noOfChild']");
+ private By searchButton =By.xpath("//div[@id='showdometic']/div[@class='srchbtn']");
+ private By flightlist=By.className("onewayflightinfo");
  
  public Searchpage(WebDriver driver){
   this.driver=driver;
  }
+
  
- public void enterSource(String sourceJourney) throws InterruptedException
+ public void enterPickup(String pickupJourney) throws InterruptedException
  {
-  driver.findElement(Source).sendKeys(sourceJourney);
+	
+  driver.findElement(sourcelocation).sendKeys(pickupJourney);
   Thread.sleep(2000);
-  driver.findElement(Source).sendKeys(Keys.TAB);
+  driver.findElement(sourcelocation).sendKeys(Keys.TAB);
  }
  
  public void enterDestination(String destinationJourney) throws InterruptedException
  {
-  driver.findElement(Destination).sendKeys(destinationJourney);
+  driver.findElement(destinationlocation).sendKeys(destinationJourney);
   Thread.sleep(2000);
-  driver.findElement(Destination).sendKeys(Keys.TAB);
+  driver.findElement(destinationlocation).sendKeys(Keys.TAB);
  }
  public void selectDate()
  {
-  driver.findElement(dateButton).click();
+  driver.findElement(datebutton).click();
   driver.findElement(date).click();
  }
  public void selectAdult(Select select, int index)
  {
-  select = new Select(driver.findElement(By.xpath("//select[@id='noOfAdult']")));
+  select = new Select(driver.findElement(numberofadult));
   select.selectByIndex(index);
  }
  public void selectChild(Select select, int index)
  {
-  select = new Select(driver.findElement(By.xpath("//select[@id='noOfChild']")));
-  select.selectByIndex(index);
- }
- public void selectInfant(Select select, int index){
-  select = new Select(driver.findElement(By.xpath("//select[@id='noOfInfant']")));
+  select = new Select(driver.findElement(numberofchild));
   select.selectByIndex(index);
  }
  public void clickOnSearchFlight()
  {
-  driver.findElement(search_btn).click();
+  driver.findElement(searchButton).click();
  }
  public void displayFlight()
  {
-  List<WebElement> list = driver.findElements(list_flight);
+  List<WebElement> list = driver.findElements(flightlist);
   System.out.println("Total no of flights: "+list.size());
-  System.out.println("first element: "+list);
+  int c=list.size();
+  Assert.assertTrue(c>100);
  }
 }
